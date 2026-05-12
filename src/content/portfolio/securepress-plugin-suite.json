@@ -14,7 +14,7 @@
     }
   ],
   "liveUrl": "",
-  "coverImage": "/uploads/portfolio/securepress-plugin-suite.svg",
+  "coverImage": "/uploads/portfolio/cachepro_screenshot.jpg",
   "summary": "A custom WordPress plugin suite for a cache system built custom",
   "technologies": [
     "WordPress",
@@ -24,7 +24,7 @@
   ],
   "slug": "r2motion-enterprise-cache",
   "featured": false,
-  "order": 3,
+  "order": 7,
   "caseStudyUrl": "",
   "title": "(r2)motion Enterprise Cache",
   "accentColor": "#78dce0",
