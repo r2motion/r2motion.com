@@ -1,11 +1,11 @@
 {
-  "name": "Lumen Studio",
-  "slug": "lumen-studio",
-  "logoText": "Lumen",
+  "name": "Amazon",
+  "slug": "amazon",
+  "featured": false,
+  "order": 4,
   "logoImage": "",
-  "category": "Creative studio",
   "relationshipType": "partner",
   "websiteUrl": "",
-  "featured": false,
-  "order": 4
+  "logoText": "Amazon",
+  "category": "Creative studio"
 }
