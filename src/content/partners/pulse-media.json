@@ -1,11 +1,11 @@
 {
-  "name": "Pulse Media",
-  "slug": "pulse-media",
-  "logoText": "Pulse",
+  "name": "Masfmaruba.com",
+  "slug": "masfm",
+  "featured": false,
+  "order": 6,
   "logoImage": "",
-  "category": "Media and publishing",
   "relationshipType": "client",
   "websiteUrl": "",
-  "featured": false,
-  "order": 6
+  "logoText": "Masfmaruba.com",
+  "category": "Media and publishing"
 }
