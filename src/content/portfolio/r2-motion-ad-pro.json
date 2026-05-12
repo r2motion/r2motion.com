@@ -14,7 +14,7 @@
     }
   ],
   "liveUrl": "",
-  "coverImage": "/uploads/portfolio/securepress-plugin-suite.svg",
+  "coverImage": "/uploads/portfolio/adpro_screenshot.jpg",
   "summary": "A custom WordPress plugin suite for ad system",
   "technologies": [
     "WordPress",
@@ -24,7 +24,7 @@
   ],
   "slug": "r2motion-ad-pro",
   "featured": false,
-  "order": 3,
+  "order": 6,
   "caseStudyUrl": "",
   "title": "(r2)motion Ad Pro",
   "accentColor": "#78dce0",
