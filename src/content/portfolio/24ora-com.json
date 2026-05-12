@@ -1,0 +1,43 @@
+{
+  "metrics": [
+    {
+      "label": "uptime goal",
+      "value": "99.9%"
+    },
+    {
+      "label": "backup cycle",
+      "value": "24h"
+    },
+    {
+      "label": "TTFB goal",
+      "value": "<200"
+    }
+  ],
+  "liveUrl": "24ora.com",
+  "coverImage": "/uploads/portfolio/24ora_screenshot.jpg",
+  "summary": "24ora.com is a high-demand local news platform built with enterprise-grade hosting, advanced security, custom performance optimization, SEO, and integrated digital advertising. The website runs on redundant Amazon EC2 instances, S3 buckets, Cloudflare Enterprise, Sucuri Enterprise, and a custom cache system, with AdButler advertising integrated through the AdButler API.",
+  "technologies": [
+    "Wordpress",
+    "Redis",
+    "Varnish",
+    "Memcached",
+    "Amazon EC2"
+  ],
+  "slug": "24ora",
+  "featured": false,
+  "order": 4,
+  "caseStudyUrl": "",
+  "title": "24ora.com",
+  "accentColor": "#ff0000",
+  "description": "24ora.com is a custom-built local news website designed to handle high traffic, fast content delivery, strong security, and continuous availability. The platform runs on an enterprise hosting setup using redundant Amazon EC2 instances and S3 buckets, ensuring scalability, reliability, and strong infrastructure performance. Security is implemented through Sucuri Enterprise and Cloudflare Enterprise, providing advanced firewall protection, traffic filtering, and protection against online threats. A custom theme was developed specifically for the needs of a high-demand local news platform, with a focus on usability, speed, SEO optimization, and efficient content presentation. To maximize performance, the website uses a custom cache stack that includes Varnish, Redis, Page Cache, Object Cache, and Memcached, all operating behind Cloudflare Enterprise and Sucuri Enterprise firewall systems. The platform also includes a professional advertising solution using the AdButler ad system, integrated through the AdButler API to manage, serve, and optimize digital ad placements across the website. This combination creates a secure, scalable, high-performance news platform capable of serving a large local audience while supporting reliable content delivery and advanced advertising management.",
+  "year": "2026",
+  "services": [
+    "Enterprise hosting",
+    "Web Develop",
+    "Custom Theme",
+    "Performance",
+    "Security",
+    "API Integration"
+  ],
+  "category": "Web Develop"
+}
