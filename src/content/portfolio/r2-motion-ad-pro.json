@@ -1,0 +1,40 @@
+{
+  "metrics": [
+    {
+      "label": "modules",
+      "value": "7"
+    },
+    {
+      "label": "roles",
+      "value": "5"
+    },
+    {
+      "label": "admin time",
+      "value": "-30%"
+    }
+  ],
+  "liveUrl": "",
+  "coverImage": "/uploads/portfolio/securepress-plugin-suite.svg",
+  "summary": "A custom WordPress plugin suite for ad system",
+  "technologies": [
+    "WordPress",
+    "PHP",
+    "REST API",
+    "MySQL"
+  ],
+  "slug": "r2motion-ad-pro",
+  "featured": false,
+  "order": 3,
+  "caseStudyUrl": "",
+  "title": "(r2)motion Ad Pro",
+  "accentColor": "#78dce0",
+  "description": "A custom WordPress plugin suite for ad system",
+  "year": "2026",
+  "services": [
+    "Plugin development",
+    "Admin UX",
+    "API integration",
+    "Security"
+  ],
+  "category": "WordPress Plugin"
+}
