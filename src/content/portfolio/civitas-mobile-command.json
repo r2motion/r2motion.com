@@ -13,26 +13,27 @@
       "value": "4w"
     }
   ],
-  "liveUrl": "",
+  "liveUrl": "masfmaruba.com",
   "coverImage": "/uploads/portfolio/masfm_screenshot.jpg",
-  "summary": "custom-built WordPress theme for Masfmaruba.com with a custom-built plugin for on-air information, player, show schedule, and more",
+  "summary": "masfmaruba.com is a custom WordPress website built for Aruba’s local radio station, powered by business hosting on Amazon EC2 instances and optimized with Varnish and Redis object caching. The platform includes a custom radio player, on-air DJ widget, scheduling and programming tools, and a custom WordPress template designed for a modern radio experience.",
   "technologies": [
     "WordPress",
     "PHP",
-    "JSON",
-    "Linux"
+    "JSON"
   ],
   "slug": "masfmaruba",
   "featured": true,
-  "order": 1,
+  "order": 3,
   "caseStudyUrl": "",
   "title": "Masfmaruba.com",
   "accentColor": "#76f7b2",
-  "description": "custom-built WordPress theme for Masfmaruba.com with a custom-built plugin for on-air information, player, show schedule, and more",
+  "description": "masfmaruba.com is a custom-built WordPress website created for Aruba’s local radio station, designed to support live broadcasting, program scheduling, and an engaging listener experience. The website runs on business hosting using Amazon EC2 instances, providing a stable and scalable infrastructure for daily radio traffic. Performance is optimized with Varnish caching and Redis object cache, helping the platform deliver fast page loads and reliable access for listeners. A custom WordPress template was developed specifically for the station, giving the website a unique layout tailored to radio content, programs, personalities, and live audio streaming. The platform also includes a custom plugin for scheduling and programming, allowing the station to manage shows, time slots, and broadcast content more efficiently. A custom audio player displays song titles and artwork, creating a more interactive listening experience, while a custom “On Air” widget highlights the current on-air personality or DJ. Together, these features create a professional, performance-driven radio website built for broadcasting, audience engagement, and easy content management.",
   "year": "2026",
   "services": [
     "Web Develop",
-    "Plugin Develop"
+    "Plugin Develop",
+    "WordPress Theme",
+    "Hosting"
   ],
   "category": "Web Develop"
 }
