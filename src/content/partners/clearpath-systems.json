@@ -1,11 +1,11 @@
 {
-  "name": "Clearpath Systems",
-  "slug": "clearpath-systems",
-  "logoText": "Clearpath",
+  "name": "Hostaria Da Vittorio",
+  "slug": "hostaria-davittorio",
+  "featured": false,
+  "order": 5,
   "logoImage": "",
-  "category": "Operations systems",
   "relationshipType": "client",
   "websiteUrl": "",
-  "featured": false,
-  "order": 5
+  "logoText": "Hostaria",
+  "category": "Operations systems"
 }
