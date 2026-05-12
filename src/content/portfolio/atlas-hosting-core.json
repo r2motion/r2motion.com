@@ -1,21 +1,40 @@
 {
-  "title": "Atlas Hosting Core",
-  "slug": "atlas-hosting-core",
-  "year": "2025",
-  "category": "Enterprise Hosting",
-  "summary": "A managed hosting foundation with migration planning, performance tuning, backups, SSL, and uptime monitoring.",
-  "description": "A hosting and operations direction for companies that need their digital presence to feel fast, stable, secure, and professionally supported.",
-  "services": ["Enterprise hosting", "Migration", "Security", "Performance"],
-  "technologies": ["Linux", "Nginx", "SSL", "Monitoring"],
   "metrics": [
-    { "label": "uptime goal", "value": "99.9%" },
-    { "label": "backup cycle", "value": "24h" },
-    { "label": "TTFB goal", "value": "<200" }
+    {
+      "label": "uptime goal",
+      "value": "99.9%"
+    },
+    {
+      "label": "backup cycle",
+      "value": "24h"
+    },
+    {
+      "label": "TTFB goal",
+      "value": "<200"
+    }
   ],
-  "coverImage": "/uploads/portfolio/atlas-hosting-core.svg",
-  "accentColor": "#f09a9a",
+  "liveUrl": "",
+  "coverImage": "/uploads/portfolio/screenshot-2026-05-11-233013.png",
+  "summary": "A managed hosting foundation with migration planning, performance tuning, backups, SSL, and uptime monitoring.",
+  "technologies": [
+    "Linux",
+    "Nginx",
+    "SSL",
+    "Monitoring"
+  ],
+  "slug": "masnoticia-website",
   "featured": false,
   "order": 4,
-  "liveUrl": "",
-  "caseStudyUrl": ""
+  "caseStudyUrl": "",
+  "title": "Masnoticia.com",
+  "accentColor": "#ff9400",
+  "description": "A hosting and operations direction for companies that need their digital presence to feel fast, stable, secure, and professionally supported.",
+  "year": "2025",
+  "services": [
+    "Enterprise hosting",
+    "Migration",
+    "Security",
+    "Performance"
+  ],
+  "category": "Enterprise Hosting"
 }
