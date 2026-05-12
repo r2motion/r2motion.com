@@ -1,0 +1,40 @@
+{
+  "metrics": [
+    {
+      "label": "Lighthouse",
+      "value": "98"
+    },
+    {
+      "label": "load target",
+      "value": "1.1s"
+    },
+    {
+      "label": "sections",
+      "value": "12"
+    }
+  ],
+  "liveUrl": "",
+  "coverImage": "/uploads/portfolio/commerce-velocity-platform.svg",
+  "summary": "Develop & Local SEO",
+  "technologies": [
+    "React",
+    "Vite",
+    "CMS",
+    "Analytics"
+  ],
+  "slug": "escortaruba297",
+  "featured": true,
+  "order": 2,
+  "caseStudyUrl": "",
+  "title": "Escort Aruba 297",
+  "accentColor": "#e8c36d",
+  "description": "Develop & Local SEO",
+  "year": "2026",
+  "services": [
+    "Hosting",
+    "SEO",
+    "Security",
+    "Perfromance"
+  ],
+  "category": "Web Develop"
+}
