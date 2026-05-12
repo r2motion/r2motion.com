@@ -1,11 +1,11 @@
 {
-  "name": "Northstar Digital",
-  "slug": "northstar-digital",
-  "logoText": "Northstar",
+  "name": "Masnoticia.com",
+  "slug": "masnoticia",
+  "featured": true,
+  "order": 1,
   "logoImage": "",
-  "category": "Digital product partner",
   "relationshipType": "client",
   "websiteUrl": "",
-  "featured": true,
-  "order": 1
+  "logoText": "Masnoticia.com",
+  "category": "Digital product partner"
 }
