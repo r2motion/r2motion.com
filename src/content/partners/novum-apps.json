@@ -1,7 +1,7 @@
 {
   "name": "WordPress",
   "slug": "wordpress",
-  "featured": false,
+  "featured": true,
   "order": 8,
   "logoImage": "",
   "relationshipType": "partner",
