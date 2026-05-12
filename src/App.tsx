@@ -75,7 +75,9 @@ type PartnerItem = {
 };
 
 type PartnerModule = {
-  default: PartnerItem;
+  default: Omit<PartnerItem, 'relationshipType'> & {
+    relationshipType?: PartnerItem['relationshipType'];
+  };
 };
 
 type ThemeName = 'ember' | 'mint';
@@ -98,6 +100,10 @@ const portfolioModules = import.meta.glob('./content/portfolio/*.json', {
   eager: true,
 }) as Record<string, PortfolioModule>;
 
+const clientModules = import.meta.glob('./content/clients/*.json', {
+  eager: true,
+}) as Record<string, PartnerModule>;
+
 const partnerModules = import.meta.glob('./content/partners/*.json', {
   eager: true,
 }) as Record<string, PartnerModule>;
@@ -117,8 +123,17 @@ const portfolioCategories = [
   ...Array.from(new Set(portfolioItems.map((item) => item.category))),
 ];
 
-const partnerItems = Object.values(partnerModules)
-  .map((module) => module.default)
+const clientItems = Object.values(clientModules).map((module) => ({
+  ...module.default,
+  relationshipType: 'client' as const,
+}));
+
+const collaboratorItems = Object.values(partnerModules).map((module) => ({
+  ...module.default,
+  relationshipType: 'partner' as const,
+}));
+
+const partnerItems = [...clientItems, ...collaboratorItems]
   .sort((a, b) => {
     if (a.featured !== b.featured) {
       return Number(b.featured) - Number(a.featured);

@@ -58,17 +58,17 @@ collections:
       - { label: Order, name: order, widget: number, value_type: int, default: 10 }
       - { label: Live URL, name: liveUrl, widget: string, required: false }
       - { label: Case study URL, name: caseStudyUrl, widget: string, required: false }
-  - name: partners
-    label: Clients & Partners
-    label_singular: Partner
-    folder: src/content/partners
-    media_folder: /public/uploads/partners
-    public_folder: /uploads/partners
+  - name: clients
+    label: Clients
+    label_singular: Client
+    folder: src/content/clients
+    media_folder: /public/uploads/clients
+    public_folder: /uploads/clients
     extension: json
     format: json
     create: true
     slug: "{{slug}}"
-    summary: "{{name}} - {{relationshipType}}"
+    summary: "{{name}}"
     sortable_fields:
       - order
       - name
@@ -78,13 +78,30 @@ collections:
       - { label: Slug, name: slug, widget: string, hint: "Lowercase words separated by hyphens." }
       - { label: Logo text, name: logoText, widget: string, hint: "Fallback text mark used when no logo image is uploaded." }
       - { label: Logo image, name: logoImage, widget: image, required: false }
-      - label: Relationship type
-        name: relationshipType
-        widget: select
-        options:
-          - { label: Client, value: client }
-          - { label: Partner, value: partner }
-        default: client
+      - { label: Category, name: category, widget: string }
+      - { label: Website URL, name: websiteUrl, widget: string, required: false }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Order, name: order, widget: number, value_type: int, default: 10 }
+  - name: partners
+    label: Partners
+    label_singular: Partner
+    folder: src/content/partners
+    media_folder: /public/uploads/partners
+    public_folder: /uploads/partners
+    extension: json
+    format: json
+    create: true
+    slug: "{{slug}}"
+    summary: "{{name}}"
+    sortable_fields:
+      - order
+      - name
+      - featured
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: Slug, name: slug, widget: string, hint: "Lowercase words separated by hyphens." }
+      - { label: Logo text, name: logoText, widget: string, hint: "Fallback text mark used when no logo image is uploaded." }
+      - { label: Logo image, name: logoImage, widget: image, required: false }
       - { label: Category, name: category, widget: string }
       - { label: Website URL, name: websiteUrl, widget: string, required: false }
       - { label: Featured, name: featured, widget: boolean, default: false }
