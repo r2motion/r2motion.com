@@ -601,9 +601,26 @@ function Services() {
 
 function Portfolio() {
   const reduceMotion = useReducedMotion();
+  const railRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef({
+    didDrag: false,
+    isDragging: false,
+    lastTime: 0,
+    lastX: 0,
+    pointerId: -1,
+    startScrollLeft: 0,
+    startX: 0,
+    velocity: 0,
+  });
+  const suppressClickRef = useRef(false);
+  const clickResetTimerRef = useRef<number | null>(null);
+  const inertiaFrameRef = useRef<number | null>(null);
+  const railFocusRef = useRef(false);
+  const railHoverRef = useRef(false);
   const [activeSlug, setActiveSlug] = useState(portfolioItems[0]?.slug ?? '');
   const [activeCategory, setActiveCategory] = useState('All');
   const [isRailPaused, setIsRailPaused] = useState(false);
+  const [isRailDragging, setIsRailDragging] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const filteredPortfolioItems = useMemo(
     () =>
@@ -629,6 +646,56 @@ function Portfolio() {
   useEffect(() => {
     setLightboxIndex(null);
   }, [activeProject?.slug]);
+
+  useEffect(() => {
+    if (railRef.current) {
+      railRef.current.scrollLeft = 0;
+    }
+  }, [activeCategory]);
+
+  useEffect(() => {
+    const rail = railRef.current;
+
+    if (!rail || !shouldAnimateRail || isRailPaused || isRailDragging) {
+      return undefined;
+    }
+
+    let frame = 0;
+    let lastTime = window.performance.now();
+
+    const tick = (time: number) => {
+      const delta = time - lastTime;
+      lastTime = time;
+      rail.scrollLeft += delta * 0.038;
+
+      const loopPoint = rail.scrollWidth / 2;
+
+      if (loopPoint > rail.clientWidth && rail.scrollLeft >= loopPoint) {
+        rail.scrollLeft -= loopPoint;
+      }
+
+      frame = window.requestAnimationFrame(tick);
+    };
+
+    frame = window.requestAnimationFrame(tick);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
+  }, [isRailDragging, isRailPaused, shouldAnimateRail]);
+
+  useEffect(
+    () => () => {
+      if (clickResetTimerRef.current !== null) {
+        window.clearTimeout(clickResetTimerRef.current);
+      }
+
+      if (inertiaFrameRef.current !== null) {
+        window.cancelAnimationFrame(inertiaFrameRef.current);
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
     if (lightboxIndex === null) {
@@ -676,6 +743,137 @@ function Portfolio() {
     setActiveSlug(nextItems[0]?.slug ?? '');
   };
 
+  const clearClickSuppression = () => {
+    if (clickResetTimerRef.current !== null) {
+      window.clearTimeout(clickResetTimerRef.current);
+    }
+
+    clickResetTimerRef.current = window.setTimeout(() => {
+      suppressClickRef.current = false;
+      clickResetTimerRef.current = null;
+    }, 180);
+  };
+
+  const stopRailInertia = () => {
+    if (inertiaFrameRef.current !== null) {
+      window.cancelAnimationFrame(inertiaFrameRef.current);
+      inertiaFrameRef.current = null;
+    }
+  };
+
+  const startRailInertia = (rail: HTMLDivElement, pointerVelocity: number) => {
+    if (reduceMotion || Math.abs(pointerVelocity) < 0.08) {
+      return;
+    }
+
+    let velocity = pointerVelocity;
+
+    const glide = () => {
+      rail.scrollLeft -= velocity * 16;
+      velocity *= 0.92;
+
+      if (Math.abs(velocity) < 0.02) {
+        inertiaFrameRef.current = null;
+        return;
+      }
+
+      inertiaFrameRef.current = window.requestAnimationFrame(glide);
+    };
+
+    stopRailInertia();
+    inertiaFrameRef.current = window.requestAnimationFrame(glide);
+  };
+
+  const resumeRailWhenIdle = () => {
+    if (!dragRef.current.isDragging && !railHoverRef.current && !railFocusRef.current) {
+      setIsRailPaused(false);
+    }
+  };
+
+  const selectProject = (slug: string) => {
+    if (suppressClickRef.current) {
+      return;
+    }
+
+    setActiveSlug(slug);
+  };
+
+  const onRailPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'mouse' && event.button !== 0) {
+      return;
+    }
+
+    const rail = railRef.current;
+
+    if (!rail) {
+      return;
+    }
+
+    stopRailInertia();
+    setIsRailPaused(true);
+    setIsRailDragging(true);
+    suppressClickRef.current = false;
+    const now = window.performance.now();
+    dragRef.current = {
+      didDrag: false,
+      isDragging: true,
+      lastTime: now,
+      lastX: event.clientX,
+      pointerId: event.pointerId,
+      startScrollLeft: rail.scrollLeft,
+      startX: event.clientX,
+      velocity: 0,
+    };
+    rail.setPointerCapture(event.pointerId);
+  };
+
+  const onRailPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    const rail = railRef.current;
+    const drag = dragRef.current;
+
+    if (!rail || !drag.isDragging || drag.pointerId !== event.pointerId) {
+      return;
+    }
+
+    const now = window.performance.now();
+    const elapsed = Math.max(now - drag.lastTime, 16);
+    const delta = event.clientX - drag.startX;
+
+    if (Math.abs(delta) > 4) {
+      drag.didDrag = true;
+      suppressClickRef.current = true;
+      event.preventDefault();
+    }
+
+    drag.velocity = (event.clientX - drag.lastX) / elapsed;
+    drag.lastX = event.clientX;
+    drag.lastTime = now;
+    rail.scrollLeft = drag.startScrollLeft - delta;
+  };
+
+  const finishRailDrag = (event: PointerEvent<HTMLDivElement>) => {
+    const rail = railRef.current;
+    const drag = dragRef.current;
+
+    if (!rail || !drag.isDragging || drag.pointerId !== event.pointerId) {
+      return;
+    }
+
+    if (rail.hasPointerCapture(event.pointerId)) {
+      rail.releasePointerCapture(event.pointerId);
+    }
+
+    if (drag.didDrag) {
+      suppressClickRef.current = true;
+      clearClickSuppression();
+      startRailInertia(rail, drag.velocity);
+    }
+
+    drag.isDragging = false;
+    setIsRailDragging(false);
+    resumeRailWhenIdle();
+  };
+
   return (
     <section className="content-section portfolio-section section-shell" id="portfolio">
       <Reveal className="section-heading section-heading--split portfolio-heading-shell">
@@ -702,15 +900,39 @@ function Portfolio() {
       </div>
 
       <div className="portfolio-stage">
-        <div className="portfolio-rail" aria-label="Featured project rail">
+        <div
+          className={`portfolio-rail ${isRailDragging ? 'is-dragging' : ''}`}
+          aria-label="Featured project rail"
+          ref={railRef}
+          onPointerDown={onRailPointerDown}
+          onPointerMove={onRailPointerMove}
+          onPointerUp={finishRailDrag}
+          onPointerCancel={finishRailDrag}
+          onPointerEnter={() => {
+            railHoverRef.current = true;
+            setIsRailPaused(true);
+          }}
+          onPointerLeave={() => {
+            railHoverRef.current = false;
+            resumeRailWhenIdle();
+          }}
+          onFocusCapture={() => {
+            railFocusRef.current = true;
+            setIsRailPaused(true);
+          }}
+          onBlurCapture={(event) => {
+            const nextFocus = event.relatedTarget;
+
+            if (!(nextFocus instanceof Node) || !event.currentTarget.contains(nextFocus)) {
+              railFocusRef.current = false;
+              resumeRailWhenIdle();
+            }
+          }}
+        >
           <div
             className={`portfolio-rail-track ${shouldAnimateRail ? 'portfolio-rail-track--auto' : ''} ${
               isRailPaused ? 'is-paused' : ''
             }`}
-            onPointerDown={() => setIsRailPaused(true)}
-            onPointerUp={() => setIsRailPaused(false)}
-            onPointerCancel={() => setIsRailPaused(false)}
-            onPointerLeave={() => setIsRailPaused(false)}
           >
             {filteredPortfolioItems.map((item) => (
               <button
@@ -719,7 +941,7 @@ function Portfolio() {
                 style={{ '--accent': item.accentColor } as CSSProperties}
                 key={item.slug}
                 aria-pressed={item.slug === activeProject.slug}
-                onClick={() => setActiveSlug(item.slug)}
+                onClick={() => selectProject(item.slug)}
                 onFocus={() => setActiveSlug(item.slug)}
               >
                 <span className="portfolio-rail-image">
@@ -743,7 +965,7 @@ function Portfolio() {
                 key={`${item.slug}-ghost`}
                 tabIndex={-1}
                 aria-label={`Select ${item.title}`}
-                onClick={() => setActiveSlug(item.slug)}
+                onClick={() => selectProject(item.slug)}
               >
                 <span className="portfolio-rail-image">
                   <img src={getVersionedUploadUrl(item.coverImage)} alt="" draggable="false" />

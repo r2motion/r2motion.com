@@ -967,14 +967,24 @@ section[id] {
   z-index: 1;
   min-height: 430px;
   padding: 66px 0 62px;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   perspective: 1500px;
   mask-image: linear-gradient(90deg, transparent, black 4%, black 96%, transparent);
+  cursor: grab;
+  overscroll-behavior-x: contain;
+  scroll-behavior: auto;
   scrollbar-width: none;
+  touch-action: pan-y;
+  user-select: none;
 }
 
 .portfolio-rail::-webkit-scrollbar {
   display: none;
+}
+
+.portfolio-rail.is-dragging {
+  cursor: grabbing;
 }
 
 .portfolio-rail-track {
@@ -982,23 +992,13 @@ section[id] {
   width: max-content;
   gap: 26px;
   padding: 0 34px;
-  cursor: grab;
+  cursor: inherit;
   transform-style: preserve-3d;
-  will-change: transform;
+  will-change: auto;
 }
 
 .portfolio-rail-track--auto {
-  animation: portfolioCarousel 42s linear infinite;
-}
-
-.portfolio-stage:hover .portfolio-rail-track--auto,
-.portfolio-stage:focus-within .portfolio-rail-track--auto,
-.portfolio-rail-track--auto.is-paused {
-  animation-play-state: paused;
-}
-
-.portfolio-rail-track:active {
-  cursor: grabbing;
+  animation: none;
 }
 
 .portfolio-rail-card {
@@ -1017,6 +1017,7 @@ section[id] {
   overflow: hidden;
   text-align: left;
   cursor: pointer;
+  user-select: none;
   transform:
     rotateZ(-5deg)
     rotateY(-21deg)
@@ -1051,6 +1052,10 @@ section[id] {
 
 .portfolio-rail-card--ghost {
   pointer-events: auto;
+}
+
+.portfolio-rail.is-dragging .portfolio-rail-card {
+  cursor: grabbing;
 }
 
 .portfolio-rail-card:hover,
