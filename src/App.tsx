@@ -916,9 +916,8 @@ function Trust() {
 
 function Contact() {
   const [formStatus, setFormStatus] = useState<{
-    type: 'idle' | 'error' | 'success';
+    type: 'idle' | 'pending' | 'error' | 'success';
     message: string;
-    href?: string;
   }>({
     type: 'idle',
     message: '',
@@ -935,7 +934,7 @@ function Contact() {
     [],
   );
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formElement = event.currentTarget;
@@ -943,36 +942,60 @@ function Contact() {
     if (!formElement.checkValidity()) {
       setFormStatus({
         type: 'error',
-        message: 'Please complete the required fields before preparing the inquiry.',
+        message: 'Please complete the required fields before sending the inquiry.',
       });
       formElement.reportValidity();
       return;
     }
 
     const form = new FormData(formElement);
-    const values = Object.fromEntries(form.entries());
-    const subject = encodeURIComponent(`Project inquiry from ${values.name || 'new lead'}`);
-    const body = encodeURIComponent(
-      [
-        `Name: ${values.name || ''}`,
-        `Email: ${values.email || ''}`,
-        `Company: ${values.company || ''}`,
-        `Project type: ${values.type || ''}`,
-        `Budget range: ${values.budget || ''}`,
-        '',
-        'Project notes:',
-        `${values.message || ''}`,
-      ].join('\n'),
-    );
-    const mailtoHref = `mailto:hello@r2motion.com?subject=${subject}&body=${body}`;
+    const getValue = (name: string) => String(form.get(name) || '').trim();
 
     setFormStatus({
-      type: 'success',
-      message: 'Inquiry ready. Your email app should open with the message prepared.',
-      href: mailtoHref,
+      type: 'pending',
+      message: 'Sending your inquiry...',
     });
 
-    window.location.href = mailtoHref;
+    try {
+      const response = await fetch('/contact.php', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: getValue('name'),
+          email: getValue('email'),
+          company: getValue('company'),
+          type: getValue('type'),
+          budget: getValue('budget'),
+          message: getValue('message'),
+          website: getValue('website'),
+        }),
+      });
+      const result = (await response.json().catch(() => null)) as {
+        success?: boolean;
+        message?: string;
+      } | null;
+
+      if (!response.ok || !result?.success) {
+        throw new Error(result?.message || 'The inquiry could not be sent.');
+      }
+
+      formElement.reset();
+      setFormStatus({
+        type: 'success',
+        message: 'Inquiry sent. I will reply as soon as possible.',
+      });
+    } catch (error) {
+      setFormStatus({
+        type: 'error',
+        message:
+          error instanceof Error
+            ? error.message
+            : 'Something went wrong while sending the inquiry. Please try again.',
+      });
+    }
   };
 
   return (
@@ -1002,6 +1025,10 @@ function Contact() {
         </div>
 
         <form className="inquiry-form" onSubmit={onSubmit} noValidate>
+          <label className="form-honey" aria-hidden="true">
+            <span>Website</span>
+            <input name="website" type="text" tabIndex={-1} autoComplete="off" />
+          </label>
           <div className="form-grid">
             <label>
               <span>Name</span>
@@ -1044,18 +1071,13 @@ function Contact() {
               required
             />
           </label>
-          <button className="submit-button" type="submit">
+          <button className="submit-button" type="submit" disabled={formStatus.type === 'pending'}>
             <Send size={18} aria-hidden="true" />
-            Prepare inquiry
+            {formStatus.type === 'pending' ? 'Sending inquiry' : 'Send inquiry'}
           </button>
           {formStatus.message ? (
             <div className={`form-status form-status--${formStatus.type}`} role="status" aria-live="polite">
               <span>{formStatus.message}</span>
-              {formStatus.href ? (
-                <a href={formStatus.href}>
-                  Open email draft <ArrowUpRight size={15} aria-hidden="true" />
-                </a>
-              ) : null}
             </div>
           ) : null}
         </form>

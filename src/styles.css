@@ -1554,6 +1554,16 @@ section[id] {
   box-shadow: var(--shadow);
 }
 
+.form-honey {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1612,6 +1622,11 @@ section[id] {
   cursor: pointer;
 }
 
+.submit-button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
 .form-status {
   display: grid;
   gap: 10px;
@@ -1627,6 +1642,11 @@ section[id] {
 .form-status--success {
   border-color: rgba(var(--accent-rgb), 0.32);
   background: rgba(var(--accent-rgb), 0.08);
+}
+
+.form-status--pending {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .form-status--error {
