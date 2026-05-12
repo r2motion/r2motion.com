@@ -1,10 +1,14 @@
-name: Deploy to own hosting
+name: Deploy to Cloudways
 
 on:
   push:
     branches:
       - main
   workflow_dispatch:
+
+concurrency:
+  group: cloudways-production
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -52,6 +56,7 @@ jobs:
           : "${SFTP_TARGET_PATH:?Missing SFTP_TARGET_PATH}"
 
           SFTP_PORT="${SFTP_PORT:-22}"
+          echo "Uploading built dist/ contents to ${SFTP_TARGET_PATH}"
 
           if [ -n "${SFTP_PRIVATE_KEY:-}" ]; then
             mkdir -p ~/.ssh

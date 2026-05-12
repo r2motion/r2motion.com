@@ -2,8 +2,8 @@ backend:
   name: github
   repo: r2motion/r2motion.com
   branch: main
-  base_url: https://cms-auth.r2motion.com
-  auth_endpoint: auth
+  base_url: https://r2motion.com
+  auth_endpoint: cms-auth/auth.php
 
 local_backend: true
 publish_mode: simple
@@ -19,7 +19,7 @@ collections:
     label: Portfolio
     label_singular: Project
     folder: src/content/portfolio
-    media_folder: public/uploads/portfolio
+    media_folder: /public/uploads/portfolio
     public_folder: /uploads/portfolio
     extension: json
     format: json
@@ -62,7 +62,7 @@ collections:
     label: Clients & Partners
     label_singular: Partner
     folder: src/content/partners
-    media_folder: public/uploads/partners
+    media_folder: /public/uploads/partners
     public_folder: /uploads/partners
     extension: json
     format: json
