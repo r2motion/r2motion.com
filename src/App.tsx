@@ -1011,6 +1011,13 @@ function Portfolio() {
           </div>
         </div>
 
+        <div className="portfolio-drag-cue" aria-label="Drag the portfolio preview to explore more projects">
+          <span className="portfolio-drag-track" aria-hidden="true">
+            <span />
+          </span>
+          <span>Drag to explore</span>
+        </div>
+
         <motion.article
           className="portfolio-detail"
           key={activeProject.slug}

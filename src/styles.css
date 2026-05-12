@@ -1103,6 +1103,79 @@ section[id] {
   transform: scale(1.09);
 }
 
+.portfolio-drag-cue {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  justify-self: center;
+  align-items: center;
+  gap: 11px;
+  min-height: 34px;
+  margin: -54px auto 0;
+  padding: 6px 12px 6px 10px;
+  border: 1px solid rgba(var(--accent-rgb), 0.26);
+  border-radius: 999px;
+  color: rgba(255, 252, 245, 0.72);
+  background:
+    linear-gradient(135deg, rgba(var(--accent-rgb), 0.14), rgba(255, 255, 255, 0.035)),
+    rgba(9, 10, 12, 0.68);
+  box-shadow:
+    0 14px 42px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.portfolio-drag-track {
+  position: relative;
+  width: 54px;
+  height: 14px;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.42), transparent),
+    rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.09);
+  overflow: hidden;
+}
+
+.portfolio-drag-track::before,
+.portfolio-drag-track::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border-top: 1px solid rgba(255, 252, 245, 0.62);
+  border-left: 1px solid rgba(255, 252, 245, 0.62);
+}
+
+.portfolio-drag-track::before {
+  left: 8px;
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+.portfolio-drag-track::after {
+  right: 8px;
+  transform: translateY(-50%) rotate(135deg);
+}
+
+.portfolio-drag-track span {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 18px;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--gold));
+  box-shadow: 0 0 16px rgba(var(--accent-rgb), 0.56);
+  transform: translateX(-50%);
+  animation: dragCue 2.2s ease-in-out infinite;
+}
+
 .portfolio-rail-caption {
   position: absolute;
   right: 16px;
@@ -1407,6 +1480,17 @@ section[id] {
 
   to {
     transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes dragCue {
+  0%,
+  100% {
+    transform: translateX(-22px);
+  }
+
+  50% {
+    transform: translateX(4px);
   }
 }
 
@@ -2098,6 +2182,11 @@ section[id] {
     animation: none;
   }
 
+  .portfolio-drag-cue {
+    margin-top: -34px;
+    font-size: 0.66rem;
+  }
+
   .portfolio-filter-bar {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -2291,6 +2380,7 @@ section[id] {
   }
 
   .portfolio-rail-track,
+  .portfolio-drag-track span,
   .partners-track,
   .scroll-mouse span {
     animation: none !important;
