@@ -82,10 +82,20 @@ type PartnerModule = {
 
 type ThemeName = 'ember' | 'mint';
 
+const uploadedAssetVersion = String(Date.now());
+
 const themeOptions: Array<{ label: string; value: ThemeName }> = [
   { label: 'Ember', value: 'ember' },
   { label: 'Mint', value: 'mint' },
 ];
+
+function getVersionedUploadUrl(src: string) {
+  if (!src.startsWith('/uploads/')) {
+    return src;
+  }
+
+  return `${src}${src.includes('?') ? '&' : '?'}v=${uploadedAssetVersion}`;
+}
 
 function getInitialTheme(): ThemeName {
   if (typeof window === 'undefined') {
@@ -744,7 +754,7 @@ function PartnerLogo({ partner }: { partner: PartnerItem }) {
     return (
       <span className="partner-logo partner-logo--image">
         <img
-          src={partner.logoImage}
+          src={getVersionedUploadUrl(partner.logoImage)}
           alt={`${partner.name} logo`}
           loading="lazy"
           onError={() => setImageFailed(true)}
