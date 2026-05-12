@@ -3,7 +3,7 @@
   "slug": "amazon",
   "featured": true,
   "order": 4,
-  "logoImage": "",
+  "logoImage": "/uploads/partners/amazon-aws-logo-white.png",
   "relationshipType": "partner",
   "websiteUrl": "",
   "logoText": "Amazon Web Servcies",
