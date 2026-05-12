@@ -15,7 +15,7 @@
   ],
   "liveUrl": "",
   "coverImage": "/uploads/portfolio/screenshot-2026-05-11-233013.png",
-  "summary": "A managed hosting foundation with migration planning, performance tuning, backups, SSL, and uptime monitoring.",
+  "summary": "Redesign of masnoticia.com with a custom-built template and custom-built enterprise cache plugin and custom ad system and hosted on Aamazon EC2 instances",
   "technologies": [
     "Linux",
     "Nginx",
@@ -28,13 +28,14 @@
   "caseStudyUrl": "",
   "title": "Masnoticia.com",
   "accentColor": "#ff9400",
-  "description": "A hosting and operations direction for companies that need their digital presence to feel fast, stable, secure, and professionally supported.",
-  "year": "2025",
+  "description": "Redesign of masnoticia.com with a custom-built template and custom-built enterprise cache plugin and custom ad system and hosted on Aamazon EC2 instances",
+  "year": "2026",
   "services": [
     "Enterprise hosting",
-    "Migration",
-    "Security",
-    "Performance"
+    "Web Develop",
+    "Plugin Develop",
+    "Performance",
+    "Security"
   ],
-  "category": "Enterprise Hosting"
+  "category": "Web Develop"
 }
