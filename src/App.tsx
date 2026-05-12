@@ -722,11 +722,28 @@ function Portfolio() {
   );
 }
 
+function PartnerLogo({ partner }: { partner: PartnerItem }) {
+  const [imageFailed, setImageFailed] = useState(false);
+
+  if (partner.logoImage && !imageFailed) {
+    return (
+      <span className="partner-logo partner-logo--image">
+        <img
+          src={partner.logoImage}
+          alt={`${partner.name} logo`}
+          loading="lazy"
+          onError={() => setImageFailed(true)}
+        />
+      </span>
+    );
+  }
+
+  return <span className="partner-logo partner-logo--text">{partner.logoText}</span>;
+}
+
 function PartnerMark({ partner }: { partner: PartnerItem }) {
-  const content = partner.logoImage ? (
-    <img src={partner.logoImage} alt={`${partner.name} logo`} />
-  ) : (
-    <span>{partner.logoText}</span>
+  const content = (
+    <PartnerLogo partner={partner} />
   );
 
   if (partner.websiteUrl) {
@@ -780,7 +797,7 @@ function PartnerLane({
       <div className="partners-grid" aria-label={`${eyebrow} categories`}>
         {items.slice(0, 4).map((partner) => (
           <div className="partner-chip" key={`${partner.slug}-chip`}>
-            <strong>{partner.logoText}</strong>
+            <PartnerLogo partner={partner} />
             <span>{partner.category}</span>
           </div>
         ))}
