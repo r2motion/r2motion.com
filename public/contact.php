@@ -44,7 +44,7 @@ if (($config['elastic_email_api_key'] ?? '') === '') {
     json_response(500, false, 'Email service is not configured yet.');
 }
 
-$recipient = clean_config_value($config, 'to_email', 'hello@r2motion.com');
+$recipients = clean_email_list(clean_config_value($config, 'to_email', 'hello@r2motion.com'));
 $fromEmail = clean_config_value($config, 'from_email', 'hello@r2motion.com');
 $fromName = clean_config_value($config, 'from_name', 'r2motion Website');
 $safeName = header_safe($name);
@@ -53,9 +53,13 @@ $subject = sprintf('Project inquiry from %s', $safeName !== '' ? $safeName : 'r2
 $plainBody = build_plain_body($name, $email, $company, $type, $budget, $message);
 $htmlBody = nl2br(htmlspecialchars($plainBody, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
 
+if ($recipients === []) {
+    json_response(500, false, 'Email recipient is not configured correctly.');
+}
+
 $elasticPayload = [
     'Recipients' => [
-        'To' => [$recipient],
+        'To' => $recipients,
     ],
     'Content' => [
         'From' => sprintf('%s <%s>', $fromName, $fromEmail),
@@ -83,7 +87,12 @@ if (!$elasticResult['success']) {
     json_response(500, false, 'The inquiry could not be sent right now. Please try again in a moment.');
 }
 
-json_response(200, true, 'Inquiry sent.');
+$reference = $elasticResult['transaction_id'] ?: $elasticResult['message_id'];
+$messageSuffix = $reference !== '' ? ' Reference: ' . $reference : '';
+
+json_response(200, true, 'Inquiry accepted by Elastic Email.' . $messageSuffix, [
+    'reference' => $reference,
+]);
 
 function load_contact_config(): array
 {
@@ -130,6 +139,22 @@ function clean_config_value(array $config, string $key, string $fallback): strin
     $value = trim((string) ($config[$key] ?? ''));
 
     return $value !== '' ? header_safe($value) : $fallback;
+}
+
+function clean_email_list(string $emails): array
+{
+    $items = preg_split('/[,;]+/', $emails) ?: [];
+    $cleanEmails = [];
+
+    foreach ($items as $item) {
+        $email = trim($item);
+
+        if ($email !== '' && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $cleanEmails[] = $email;
+        }
+    }
+
+    return array_values(array_unique($cleanEmails));
 }
 
 function header_safe(string $value): string
@@ -208,25 +233,31 @@ function send_with_elastic_email(string $apiKey, array $payload): array
         ];
     }
 
+    $decodedResponse = json_decode((string) $responseBody, true);
+
     if ($statusCode < 200 || $statusCode >= 300) {
         return [
             'success' => false,
             'detail' => sprintf('Elastic Email returned HTTP %d: %s', $statusCode, (string) $responseBody),
+            'transaction_id' => '',
+            'message_id' => '',
         ];
     }
 
     return [
         'success' => true,
         'detail' => (string) $responseBody,
+        'transaction_id' => is_array($decodedResponse) ? (string) ($decodedResponse['TransactionID'] ?? '') : '',
+        'message_id' => is_array($decodedResponse) ? (string) ($decodedResponse['MessageID'] ?? '') : '',
     ];
 }
 
-function json_response(int $statusCode, bool $success, string $message): void
+function json_response(int $statusCode, bool $success, string $message, array $extra = []): void
 {
     http_response_code($statusCode);
-    echo json_encode([
+    echo json_encode(array_merge([
         'success' => $success,
         'message' => $message,
-    ]);
+    ], $extra));
     exit;
 }
