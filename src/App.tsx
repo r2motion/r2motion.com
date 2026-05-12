@@ -794,14 +794,6 @@ function PartnerLane({
           ))}
         </div>
       </div>
-      <div className="partners-grid" aria-label={`${eyebrow} categories`}>
-        {items.slice(0, 4).map((partner) => (
-          <div className="partner-chip" key={`${partner.slug}-chip`}>
-            <PartnerLogo partner={partner} />
-            <span>{partner.category}</span>
-          </div>
-        ))}
-      </div>
     </Reveal>
   );
 }
