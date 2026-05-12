@@ -1,11 +1,11 @@
 {
-  "name": "Arcstone Labs",
-  "slug": "arcstone-labs",
-  "logoText": "Arcstone",
+  "name": "Cloudways",
+  "slug": "cloudways",
+  "featured": false,
+  "order": 7,
   "logoImage": "",
-  "category": "Product lab",
   "relationshipType": "partner",
   "websiteUrl": "",
-  "featured": false,
-  "order": 7
+  "logoText": "Cloudways",
+  "category": "Product lab"
 }
