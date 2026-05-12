@@ -24,6 +24,7 @@ collections:
     extension: json
     format: json
     create: true
+    identifier_field: slug
     slug: "{{slug}}"
     summary: "{{title}} - {{category}}"
     sortable_fields:
@@ -67,6 +68,7 @@ collections:
     extension: json
     format: json
     create: true
+    identifier_field: slug
     slug: "{{slug}}"
     summary: "{{name}}"
     sortable_fields:
@@ -91,6 +93,7 @@ collections:
     extension: json
     format: json
     create: true
+    identifier_field: slug
     slug: "{{slug}}"
     summary: "{{name}}"
     sortable_fields:

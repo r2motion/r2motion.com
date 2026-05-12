@@ -630,10 +630,6 @@ function Portfolio() {
           <p className="eyebrow">Portfolio</p>
           <h2>Selected digital systems, shaped for motion and scale.</h2>
         </div>
-        <p>
-          A focused mix of mobile, web, plugin, hosting, and product work with
-          clean interfaces and production-aware execution.
-        </p>
       </Reveal>
 
       <div className="portfolio-filter-shell">
@@ -789,13 +785,11 @@ function PartnerMark({ partner }: { partner: PartnerItem }) {
 function PartnerLane({
   eyebrow,
   title,
-  description,
   items,
   reverse = false,
 }: {
   eyebrow: string;
   title: string;
-  description: string;
   items: PartnerItem[];
   reverse?: boolean;
 }) {
@@ -810,7 +804,6 @@ function PartnerLane({
       <div className="partner-lane-heading">
         <p className="eyebrow">{eyebrow}</p>
         <h3>{title}</h3>
-        <p>{description}</p>
       </div>
       <div className="partners-marquee" aria-label={`${eyebrow} logo row`}>
         <div className="partners-track">
@@ -834,23 +827,17 @@ function Partners() {
           <p className="eyebrow">Clients and partners</p>
           <h2>Digital work that plugs into serious teams.</h2>
         </div>
-        <p>
-          Separate full-width rows for client work and collaboration partners,
-          ready for real marks whenever you upload them in the CMS.
-        </p>
       </Reveal>
 
       <div className="partner-lanes">
         <PartnerLane
           eyebrow="Clients"
           title="Teams using clean digital systems."
-          description="Placeholder client marks for day one, structured so real logos can replace them from the CMS."
           items={clients}
         />
         <PartnerLane
           eyebrow="Partners"
           title="Collaborators connected to the studio."
-          description="A distinct partner row for platforms, specialists, and creative collaborators around the work."
           items={collaborators}
           reverse
         />
@@ -928,6 +915,14 @@ function Trust() {
 }
 
 function Contact() {
+  const [formStatus, setFormStatus] = useState<{
+    type: 'idle' | 'error' | 'success';
+    message: string;
+    href?: string;
+  }>({
+    type: 'idle',
+    message: '',
+  });
   const inquiryTypes = useMemo(
     () => [
       'Mobile app',
@@ -943,7 +938,18 @@ function Contact() {
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const form = new FormData(event.currentTarget);
+    const formElement = event.currentTarget;
+
+    if (!formElement.checkValidity()) {
+      setFormStatus({
+        type: 'error',
+        message: 'Please complete the required fields before preparing the inquiry.',
+      });
+      formElement.reportValidity();
+      return;
+    }
+
+    const form = new FormData(formElement);
     const values = Object.fromEntries(form.entries());
     const subject = encodeURIComponent(`Project inquiry from ${values.name || 'new lead'}`);
     const body = encodeURIComponent(
@@ -958,8 +964,15 @@ function Contact() {
         `${values.message || ''}`,
       ].join('\n'),
     );
+    const mailtoHref = `mailto:hello@r2motion.com?subject=${subject}&body=${body}`;
 
-    window.location.href = `mailto:hello@r2motion.com?subject=${subject}&body=${body}`;
+    setFormStatus({
+      type: 'success',
+      message: 'Inquiry ready. Your email app should open with the message prepared.',
+      href: mailtoHref,
+    });
+
+    window.location.href = mailtoHref;
   };
 
   return (
@@ -988,7 +1001,7 @@ function Contact() {
           </div>
         </div>
 
-        <form className="inquiry-form" onSubmit={onSubmit}>
+        <form className="inquiry-form" onSubmit={onSubmit} noValidate>
           <div className="form-grid">
             <label>
               <span>Name</span>
@@ -1035,6 +1048,16 @@ function Contact() {
             <Send size={18} aria-hidden="true" />
             Prepare inquiry
           </button>
+          {formStatus.message ? (
+            <div className={`form-status form-status--${formStatus.type}`} role="status" aria-live="polite">
+              <span>{formStatus.message}</span>
+              {formStatus.href ? (
+                <a href={formStatus.href}>
+                  Open email draft <ArrowUpRight size={15} aria-hidden="true" />
+                </a>
+              ) : null}
+            </div>
+          ) : null}
         </form>
       </Reveal>
     </section>
