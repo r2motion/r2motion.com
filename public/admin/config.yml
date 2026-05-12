@@ -54,6 +54,11 @@ collections:
           - { label: Label, name: label, widget: string }
           - { label: Value, name: value, widget: string }
       - { label: Cover image, name: coverImage, widget: image }
+      - label: Gallery images
+        name: galleryImages
+        widget: list
+        required: false
+        field: { label: Image, name: image, widget: image }
       - { label: Accent color, name: accentColor, widget: color, default: "#76f7b2" }
       - { label: Featured, name: featured, widget: boolean, default: false }
       - { label: Order, name: order, widget: number, value_type: int, default: 10 }

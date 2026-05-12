@@ -2,6 +2,8 @@ import {
   ArrowRight,
   ArrowUpRight,
   Boxes,
+  ChevronLeft,
+  ChevronRight,
   CircleCheck,
   Gauge,
   LockKeyhole,
@@ -15,6 +17,7 @@ import {
   Smartphone,
   Sparkles,
   Workflow,
+  X,
   type LucideIcon,
 } from 'lucide-react';
 import {
@@ -51,6 +54,7 @@ type PortfolioItem = {
   technologies: string[];
   metrics: Metric[];
   coverImage: string;
+  galleryImages?: Array<string | { image?: string }>;
   accentColor: string;
   featured: boolean;
   order: number;
@@ -95,6 +99,16 @@ function getVersionedUploadUrl(src: string) {
   }
 
   return `${src}${src.includes('?') ? '&' : '?'}v=${uploadedAssetVersion}`;
+}
+
+function getPortfolioGallery(project: PortfolioItem) {
+  const extraImages = Array.isArray(project.galleryImages)
+    ? project.galleryImages.map((entry) => (typeof entry === 'string' ? entry : entry.image ?? ''))
+    : [];
+
+  return [project.coverImage, ...extraImages].filter(
+    (image, index, images): image is string => Boolean(image) && images.indexOf(image) === index,
+  );
 }
 
 function getInitialTheme(): ThemeName {
@@ -590,6 +604,7 @@ function Portfolio() {
   const [activeSlug, setActiveSlug] = useState(portfolioItems[0]?.slug ?? '');
   const [activeCategory, setActiveCategory] = useState('All');
   const [isRailPaused, setIsRailPaused] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const filteredPortfolioItems = useMemo(
     () =>
       activeCategory === 'All'
@@ -602,12 +617,50 @@ function Portfolio() {
     filteredPortfolioItems[0] ??
     portfolioItems[0];
   const shouldAnimateRail = !reduceMotion && filteredPortfolioItems.length > 1;
+  const galleryImages = activeProject ? getPortfolioGallery(activeProject) : [];
+  const activeGalleryImage = lightboxIndex === null ? null : galleryImages[lightboxIndex];
 
   useEffect(() => {
     if (!filteredPortfolioItems.some((item) => item.slug === activeSlug)) {
       setActiveSlug(filteredPortfolioItems[0]?.slug ?? '');
     }
   }, [activeSlug, filteredPortfolioItems]);
+
+  useEffect(() => {
+    setLightboxIndex(null);
+  }, [activeProject?.slug]);
+
+  useEffect(() => {
+    if (lightboxIndex === null) {
+      return;
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setLightboxIndex(null);
+      }
+
+      if (event.key === 'ArrowRight') {
+        setLightboxIndex((current) =>
+          current === null ? current : (current + 1) % galleryImages.length,
+        );
+      }
+
+      if (event.key === 'ArrowLeft') {
+        setLightboxIndex((current) =>
+          current === null ? current : (current - 1 + galleryImages.length) % galleryImages.length,
+        );
+      }
+    };
+
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [galleryImages.length, lightboxIndex]);
 
   if (!activeProject) {
     return null;
@@ -683,11 +736,14 @@ function Portfolio() {
               </button>
             ))}
             {filteredPortfolioItems.map((item) => (
-              <div
+              <button
+                type="button"
                 className="portfolio-rail-card portfolio-rail-card--ghost"
                 style={{ '--accent': item.accentColor } as CSSProperties}
                 key={`${item.slug}-ghost`}
-                aria-hidden="true"
+                tabIndex={-1}
+                aria-label={`Select ${item.title}`}
+                onClick={() => setActiveSlug(item.slug)}
               >
                 <span className="portfolio-rail-image">
                   <img src={getVersionedUploadUrl(item.coverImage)} alt="" draggable="false" />
@@ -696,7 +752,7 @@ function Portfolio() {
                   <span>{item.category}</span>
                   <strong>{item.title}</strong>
                 </span>
-              </div>
+              </button>
             ))}
           </div>
         </div>
@@ -729,6 +785,25 @@ function Portfolio() {
               <span key={`${activeProject.slug}-${technology}`}>{technology}</span>
             ))}
           </div>
+          {galleryImages.length ? (
+            <div className="portfolio-gallery">
+              {galleryImages.map((image, index) => (
+                <button
+                  type="button"
+                  key={`${activeProject.slug}-gallery-${image}`}
+                  className="portfolio-gallery-item"
+                  onClick={() => setLightboxIndex(index)}
+                >
+                  <img
+                    src={getVersionedUploadUrl(image)}
+                    alt={`${activeProject.title} gallery image ${index + 1}`}
+                    loading="lazy"
+                  />
+                  <span>View image</span>
+                </button>
+              ))}
+            </div>
+          ) : null}
           <div className="portfolio-links">
             {activeProject.caseStudyUrl ? (
               <a href={activeProject.caseStudyUrl}>
@@ -743,6 +818,62 @@ function Portfolio() {
           </div>
         </motion.article>
       </div>
+      {activeGalleryImage ? (
+        <div
+          className="portfolio-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${activeProject.title} gallery image`}
+          onClick={() => setLightboxIndex(null)}
+        >
+          <button
+            type="button"
+            className="lightbox-close"
+            aria-label="Close gallery"
+            onClick={() => setLightboxIndex(null)}
+          >
+            <X size={20} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="lightbox-arrow lightbox-arrow--prev"
+            aria-label="Previous image"
+            onClick={(event) => {
+              event.stopPropagation();
+              setLightboxIndex((current) =>
+                current === null ? current : (current - 1 + galleryImages.length) % galleryImages.length,
+              );
+            }}
+          >
+            <ChevronLeft size={24} aria-hidden="true" />
+          </button>
+          <figure onClick={(event) => event.stopPropagation()}>
+            <img
+              src={getVersionedUploadUrl(activeGalleryImage)}
+              alt={`${activeProject.title} gallery image ${(lightboxIndex ?? 0) + 1}`}
+            />
+            <figcaption>
+              <span>{activeProject.title}</span>
+              <span>
+                {(lightboxIndex ?? 0) + 1} / {galleryImages.length}
+              </span>
+            </figcaption>
+          </figure>
+          <button
+            type="button"
+            className="lightbox-arrow lightbox-arrow--next"
+            aria-label="Next image"
+            onClick={(event) => {
+              event.stopPropagation();
+              setLightboxIndex((current) =>
+                current === null ? current : (current + 1) % galleryImages.length,
+              );
+            }}
+          >
+            <ChevronRight size={24} aria-hidden="true" />
+          </button>
+        </div>
+      ) : null}
     </section>
   );
 }
