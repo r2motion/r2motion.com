@@ -19,7 +19,7 @@ collections:
     label: Portfolio
     label_singular: Project
     folder: src/content/portfolio
-    media_folder: /public/uploads/portfolio
+    media_folder: public/uploads/portfolio
     public_folder: /uploads/portfolio
     extension: json
     format: json
@@ -62,7 +62,7 @@ collections:
     label: Clients & Partners
     label_singular: Partner
     folder: src/content/partners
-    media_folder: /public/uploads/partners
+    media_folder: public/uploads/partners
     public_folder: /uploads/partners
     extension: json
     format: json
