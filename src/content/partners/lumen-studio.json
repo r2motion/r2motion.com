@@ -1,7 +1,7 @@
 {
   "name": "Amazon Web Services",
   "slug": "amazon",
-  "featured": false,
+  "featured": true,
   "order": 4,
   "logoImage": "",
   "relationshipType": "partner",
