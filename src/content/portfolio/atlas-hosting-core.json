@@ -14,7 +14,7 @@
     }
   ],
   "liveUrl": "",
-  "coverImage": "/uploads/portfolio/screenshot-2026-05-11-233013.png",
+  "coverImage": "/uploads/portfolio/masnoticia_screenshot.jpg",
   "summary": "Redesign of masnoticia.com with a custom-built template and custom-built enterprise cache plugin and custom ad system and hosted on Aamazon EC2 instances",
   "technologies": [
     "Linux",
