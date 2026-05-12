@@ -1,0 +1,11 @@
+{
+  "name": "Android Developer",
+  "slug": "android-dev",
+  "featured": true,
+  "order": 4,
+  "logoImage": "/uploads/partners/android_partner.png",
+  "relationshipType": "partner",
+  "websiteUrl": "",
+  "logoText": "Android Developer",
+  "category": "Hosting Partner"
+}
