@@ -1,11 +1,11 @@
 {
-  "name": "Atlas Commerce",
-  "slug": "atlas-commerce",
-  "logoText": "Atlas",
+  "name": "24ora Prome Den Noticia",
+  "slug": "24ora-prome-den-noticia",
+  "featured": true,
+  "order": 2,
   "logoImage": "",
-  "category": "Commerce platform",
   "relationshipType": "client",
   "websiteUrl": "",
-  "featured": true,
-  "order": 2
+  "logoText": "24ora",
+  "category": "Commerce platform"
 }
