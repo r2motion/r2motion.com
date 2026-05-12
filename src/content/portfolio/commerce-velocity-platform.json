@@ -13,28 +13,26 @@
       "value": "12"
     }
   ],
-  "liveUrl": "",
-  "coverImage": "/uploads/portfolio/commerce-velocity-platform.svg",
-  "summary": "Develop website for hostariavittorio.com",
+  "liveUrl": "hostariavittorio.com",
+  "coverImage": "/uploads/portfolio/hostariavittorio_screenshot.jpg",
+  "summary": "hostariavittorio.com is a custom WordPress website built for Aruba’s authentic Italian dining experience, featuring the island’s only Neapolitan wood oven pizza. The platform includes a custom WordPress theme, Local SEO optimization, analytics integration, and reliable hosting on Amazon EC2 instances.",
   "technologies": [
-    "React",
-    "Vite",
-    "CMS",
-    "Analytics"
+    "WordPress",
+    "Local SEO"
   ],
   "slug": "hostaria-da-vittorio",
   "featured": true,
-  "order": 2,
+  "order": 5,
   "caseStudyUrl": "",
   "title": "Hostaria Da Vittorio",
   "accentColor": "#e8c36d",
-  "description": "Develop website for hostariavittorio.com",
+  "description": "hostariavittorio.com is a custom-built WordPress website created for Hostaria Vittorio, Aruba’s only authentic Italian restaurant and home of the island’s only Neapolitan wood oven pizza. The website was designed with a custom WordPress theme tailored to showcase the restaurant’s Italian identity, menu offerings, atmosphere, and unique culinary experience. Local SEO was implemented to improve visibility for restaurant searches in Aruba, helping attract both residents and visitors looking for authentic Italian cuisine and wood-fired pizza. Analytics integration provides valuable insight into website traffic, visitor behavior, and marketing performance. The platform is hosted on Amazon EC2 instances, delivering a reliable and scalable hosting environment for consistent website performance. Together, these features create a professional online presence that highlights the restaurant’s authenticity, improves local discoverability, and supports customer engagement.",
   "year": "2026",
   "services": [
     "Hosting",
     "SEO",
-    "Security",
-    "Perfromance"
+    "WordPress Theme",
+    "Analystics"
   ],
   "category": "Web Develop"
 }
