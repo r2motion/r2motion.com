@@ -1,21 +1,38 @@
 {
-  "title": "Civitas Mobile Command",
-  "slug": "civitas-mobile-command",
-  "year": "2026",
-  "category": "Mobile App",
-  "summary": "A field operations app concept with fast task flows, secure account handling, and calm mobile dashboards.",
-  "description": "A mobile-first product direction for teams that need operational visibility, structured workflows, and a premium interface that stays readable under pressure.",
-  "services": ["Mobile app design", "Product UX", "React Native planning", "API architecture"],
-  "technologies": ["Figma", "React Native", "Node API", "PostgreSQL"],
   "metrics": [
-    { "label": "task flow", "value": "42%" },
-    { "label": "key screens", "value": "18" },
-    { "label": "prototype", "value": "4w" }
+    {
+      "label": "task flow",
+      "value": "42%"
+    },
+    {
+      "label": "key screens",
+      "value": "18"
+    },
+    {
+      "label": "prototype",
+      "value": "4w"
+    }
   ],
+  "liveUrl": "",
   "coverImage": "/uploads/portfolio/civitas-mobile-command.svg",
-  "accentColor": "#76f7b2",
+  "summary": "custom-built WordPress theme for Masfmaruba.com with a custom-built plugin for on-air information, player, show schedule, and more",
+  "technologies": [
+    "WordPress",
+    "PHP",
+    "JSON",
+    "Linux"
+  ],
+  "slug": "masfmaruba",
   "featured": true,
   "order": 1,
-  "liveUrl": "",
-  "caseStudyUrl": ""
+  "caseStudyUrl": "",
+  "title": "Masfmaruba.com",
+  "accentColor": "#76f7b2",
+  "description": "custom-built WordPress theme for Masfmaruba.com with a custom-built plugin for on-air information, player, show schedule, and more",
+  "year": "2026",
+  "services": [
+    "Web Develop",
+    "Plugin Develop"
+  ],
+  "category": "Web Develop"
 }
