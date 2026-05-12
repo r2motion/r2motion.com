@@ -1,0 +1,21 @@
+{
+  "title": "Commerce Velocity Platform",
+  "slug": "commerce-velocity-platform",
+  "year": "2026",
+  "category": "Web Platform",
+  "summary": "A high-performance commerce experience with layered product storytelling, fast checkout paths, and CMS-ready content.",
+  "description": "A conversion-focused web platform direction for premium retail and service brands that need speed, editorial control, and a sharp product experience.",
+  "services": ["Web design", "Frontend development", "Performance", "SEO"],
+  "technologies": ["React", "Vite", "CMS", "Analytics"],
+  "metrics": [
+    { "label": "Lighthouse", "value": "98" },
+    { "label": "load target", "value": "1.1s" },
+    { "label": "sections", "value": "12" }
+  ],
+  "coverImage": "/uploads/portfolio/commerce-velocity-platform.svg",
+  "accentColor": "#e8c36d",
+  "featured": true,
+  "order": 2,
+  "liveUrl": "",
+  "caseStudyUrl": ""
+}

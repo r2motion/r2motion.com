@@ -1,0 +1,11 @@
+{
+  "name": "Atlas Commerce",
+  "slug": "atlas-commerce",
+  "logoText": "Atlas",
+  "logoImage": "",
+  "category": "Commerce platform",
+  "relationshipType": "client",
+  "websiteUrl": "",
+  "featured": true,
+  "order": 2
+}

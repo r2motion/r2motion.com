@@ -1,0 +1,84 @@
+name: Deploy to own hosting
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Build and upload
+    runs-on: ubuntu-latest
+    env:
+      HAS_SFTP: ${{ secrets.SFTP_HOST != '' && secrets.SFTP_USERNAME != '' && secrets.SFTP_TARGET_PATH != '' && (secrets.SFTP_PASSWORD != '' || secrets.SFTP_PRIVATE_KEY != '') }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Install SFTP client
+        if: env.HAS_SFTP == 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp openssh-client
+
+      - name: Upload dist by SFTP
+        if: env.HAS_SFTP == 'true'
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          SFTP_PRIVATE_KEY: ${{ secrets.SFTP_PRIVATE_KEY }}
+          SFTP_PORT: ${{ secrets.SFTP_PORT }}
+          SFTP_TARGET_PATH: ${{ secrets.SFTP_TARGET_PATH }}
+        run: |
+          set -euo pipefail
+
+          : "${SFTP_HOST:?Missing SFTP_HOST}"
+          : "${SFTP_USERNAME:?Missing SFTP_USERNAME}"
+          : "${SFTP_TARGET_PATH:?Missing SFTP_TARGET_PATH}"
+
+          SFTP_PORT="${SFTP_PORT:-22}"
+
+          if [ -n "${SFTP_PRIVATE_KEY:-}" ]; then
+            mkdir -p ~/.ssh
+            printf '%s\n' "$SFTP_PRIVATE_KEY" > ~/.ssh/deploy_key
+            chmod 600 ~/.ssh/deploy_key
+
+            lftp -u "$SFTP_USERNAME," "sftp://$SFTP_HOST" <<EOF
+          set sftp:auto-confirm yes
+          set net:max-retries 2
+          set net:timeout 20
+          set sftp:connect-program "ssh -a -x -p ${SFTP_PORT} -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no"
+          mirror --reverse --delete --verbose dist "$SFTP_TARGET_PATH"
+          bye
+          EOF
+          else
+            : "${SFTP_PASSWORD:?Missing SFTP_PASSWORD or SFTP_PRIVATE_KEY}"
+
+            lftp -u "$SFTP_USERNAME,$SFTP_PASSWORD" -p "$SFTP_PORT" "sftp://$SFTP_HOST" <<EOF
+          set sftp:auto-confirm yes
+          set net:max-retries 2
+          set net:timeout 20
+          mirror --reverse --delete --verbose dist "$SFTP_TARGET_PATH"
+          bye
+          EOF
+          fi
+
+      - name: Skip upload notice
+        if: env.HAS_SFTP != 'true'
+        run: |
+          echo "Build completed. Add Cloudways SFTP secrets to enable deployment upload."

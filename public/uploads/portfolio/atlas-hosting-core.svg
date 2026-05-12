@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="880" viewBox="0 0 1280 880" role="img" aria-labelledby="title desc">
+  <title id="title">Atlas Hosting Core interface preview</title>
+  <desc id="desc">A managed hosting dashboard mockup with server metrics, security, and backup status.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#151114"/>
+      <stop offset="0.55" stop-color="#171b18"/>
+      <stop offset="1" stop-color="#08090b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f09a9a"/>
+      <stop offset="1" stop-color="#e8c36d"/>
+    </linearGradient>
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="30" stdDeviation="28" flood-color="#000000" flood-opacity="0.38"/>
+    </filter>
+  </defs>
+  <rect width="1280" height="880" fill="url(#bg)"/>
+  <path d="M0 620C178 548 350 646 512 566C742 452 912 470 1280 318V880H0Z" fill="#f09a9a" opacity="0.08"/>
+  <g opacity="0.13" stroke="#ffffff">
+    <path d="M90 126H1190M90 274H1190M90 422H1190M90 570H1190M90 718H1190"/>
+    <path d="M190 70V810M350 70V810M510 70V810M670 70V810M830 70V810M990 70V810M1150 70V810"/>
+  </g>
+  <g filter="url(#shadow)" transform="translate(132 114)">
+    <rect width="1016" height="652" rx="28" fill="#11161b" stroke="#ffffff" stroke-opacity="0.14"/>
+    <rect x="34" y="34" width="948" height="76" rx="20" fill="#ffffff" opacity="0.055"/>
+    <rect x="68" y="64" width="156" height="14" rx="7" fill="#f09a9a"/>
+    <rect x="736" y="54" width="200" height="34" rx="17" fill="url(#accent)" opacity="0.9"/>
+    <rect x="34" y="148" width="300" height="188" rx="24" fill="#ffffff" opacity="0.055"/>
+    <rect x="358" y="148" width="300" height="188" rx="24" fill="#ffffff" opacity="0.055"/>
+    <rect x="682" y="148" width="300" height="188" rx="24" fill="#ffffff" opacity="0.055"/>
+    <rect x="34" y="372" width="624" height="226" rx="24" fill="#ffffff" opacity="0.045"/>
+    <rect x="682" y="372" width="300" height="226" rx="24" fill="#ffffff" opacity="0.045"/>
+    <g fill="#ffffff">
+      <rect x="72" y="194" width="120" height="14" rx="7" opacity="0.54"/>
+      <rect x="396" y="194" width="118" height="14" rx="7" opacity="0.54"/>
+      <rect x="720" y="194" width="112" height="14" rx="7" opacity="0.54"/>
+      <rect x="72" y="248" width="218" height="10" rx="5" opacity="0.22"/>
+      <rect x="396" y="248" width="218" height="10" rx="5" opacity="0.22"/>
+      <rect x="720" y="248" width="218" height="10" rx="5" opacity="0.22"/>
+    </g>
+    <g>
+      <circle cx="272" cy="204" r="32" fill="#f09a9a" opacity="0.82"/>
+      <circle cx="596" cy="204" r="32" fill="#e8c36d" opacity="0.82"/>
+      <circle cx="920" cy="204" r="32" fill="#76f7b2" opacity="0.72"/>
+      <path d="M82 520C148 464 202 508 266 466C346 414 416 522 520 446L604 480" fill="none" stroke="url(#accent)" stroke-width="12" stroke-linecap="round"/>
+      <rect x="730" y="426" width="188" height="14" rx="7" fill="#ffffff" opacity="0.34"/>
+      <rect x="730" y="478" width="142" height="14" rx="7" fill="#ffffff" opacity="0.2"/>
+      <rect x="730" y="530" width="182" height="14" rx="7" fill="#ffffff" opacity="0.2"/>
+    </g>
+  </g>
+</svg>

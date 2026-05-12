@@ -1,0 +1,21 @@
+{
+  "title": "SecurePress Plugin Suite",
+  "slug": "securepress-plugin-suite",
+  "year": "2025",
+  "category": "WordPress Plugin",
+  "summary": "A custom WordPress plugin suite for admin workflows, API integration, role-based tools, and managed content operations.",
+  "description": "A maintainable plugin system concept for businesses that need WordPress to behave like a tailored operational platform instead of a generic site builder.",
+  "services": ["Plugin development", "Admin UX", "API integration", "Security"],
+  "technologies": ["WordPress", "PHP", "REST API", "MySQL"],
+  "metrics": [
+    { "label": "modules", "value": "7" },
+    { "label": "roles", "value": "5" },
+    { "label": "admin time", "value": "-30%" }
+  ],
+  "coverImage": "/uploads/portfolio/securepress-plugin-suite.svg",
+  "accentColor": "#78dce0",
+  "featured": false,
+  "order": 3,
+  "liveUrl": "",
+  "caseStudyUrl": ""
+}

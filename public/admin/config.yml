@@ -1,0 +1,91 @@
+backend:
+  name: github
+  repo: r2motion/r2motion.com
+  branch: main
+  base_url: https://cms-auth.r2motion.com
+  auth_endpoint: auth
+
+local_backend: true
+publish_mode: simple
+media_folder: public/uploads
+public_folder: /uploads
+
+site_url: https://r2motion.com
+display_url: https://r2motion.com
+logo_url: /uploads/portfolio/civitas-mobile-command.svg
+
+collections:
+  - name: portfolio
+    label: Portfolio
+    label_singular: Project
+    folder: src/content/portfolio
+    media_folder: public/uploads/portfolio
+    public_folder: /uploads/portfolio
+    extension: json
+    format: json
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} - {{category}}"
+    sortable_fields:
+      - order
+      - year
+      - title
+      - featured
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Slug, name: slug, widget: string, hint: "Lowercase words separated by hyphens." }
+      - { label: Year, name: year, widget: string }
+      - { label: Category, name: category, widget: string }
+      - { label: Summary, name: summary, widget: text }
+      - { label: Description, name: description, widget: text }
+      - label: Services
+        name: services
+        widget: list
+        field: { label: Service, name: service, widget: string }
+      - label: Technologies
+        name: technologies
+        widget: list
+        field: { label: Technology, name: technology, widget: string }
+      - label: Metrics
+        name: metrics
+        widget: list
+        fields:
+          - { label: Label, name: label, widget: string }
+          - { label: Value, name: value, widget: string }
+      - { label: Cover image, name: coverImage, widget: image }
+      - { label: Accent color, name: accentColor, widget: color, default: "#76f7b2" }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Order, name: order, widget: number, value_type: int, default: 10 }
+      - { label: Live URL, name: liveUrl, widget: string, required: false }
+      - { label: Case study URL, name: caseStudyUrl, widget: string, required: false }
+  - name: partners
+    label: Clients & Partners
+    label_singular: Partner
+    folder: src/content/partners
+    media_folder: public/uploads/partners
+    public_folder: /uploads/partners
+    extension: json
+    format: json
+    create: true
+    slug: "{{slug}}"
+    summary: "{{name}} - {{relationshipType}}"
+    sortable_fields:
+      - order
+      - name
+      - featured
+    fields:
+      - { label: Name, name: name, widget: string }
+      - { label: Slug, name: slug, widget: string, hint: "Lowercase words separated by hyphens." }
+      - { label: Logo text, name: logoText, widget: string, hint: "Fallback text mark used when no logo image is uploaded." }
+      - { label: Logo image, name: logoImage, widget: image, required: false }
+      - label: Relationship type
+        name: relationshipType
+        widget: select
+        options:
+          - { label: Client, value: client }
+          - { label: Partner, value: partner }
+        default: client
+      - { label: Category, name: category, widget: string }
+      - { label: Website URL, name: websiteUrl, widget: string, required: false }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Order, name: order, widget: number, value_type: int, default: 10 }

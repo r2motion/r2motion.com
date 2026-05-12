@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="880" viewBox="0 0 1280 880" role="img" aria-labelledby="title desc">
+  <title id="title">Civitas Mobile Command interface preview</title>
+  <desc id="desc">A premium mobile app dashboard mockup with task cards and status modules.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#10161d"/>
+      <stop offset="0.52" stop-color="#18211e"/>
+      <stop offset="1" stop-color="#07100d"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#76f7b2"/>
+      <stop offset="1" stop-color="#e8c36d"/>
+    </linearGradient>
+    <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="32" stdDeviation="28" flood-color="#000000" flood-opacity="0.38"/>
+    </filter>
+  </defs>
+  <rect width="1280" height="880" fill="url(#bg)"/>
+  <path d="M0 704C214 610 350 718 548 624C764 522 850 338 1280 362V880H0Z" fill="#76f7b2" opacity="0.08"/>
+  <g opacity="0.16" stroke="#ffffff">
+    <path d="M70 110H1210M70 220H1210M70 330H1210M70 440H1210M70 550H1210M70 660H1210M70 770H1210"/>
+    <path d="M170 60V820M310 60V820M450 60V820M590 60V820M730 60V820M870 60V820M1010 60V820M1150 60V820"/>
+  </g>
+  <g filter="url(#shadow)" transform="translate(430 86)">
+    <rect width="420" height="708" rx="52" fill="#05070a" stroke="#ffffff" stroke-opacity="0.16"/>
+    <rect x="24" y="24" width="372" height="660" rx="34" fill="#0e1319"/>
+    <rect x="54" y="62" width="136" height="12" rx="6" fill="#ffffff" opacity="0.28"/>
+    <rect x="54" y="104" width="252" height="44" rx="12" fill="#ffffff" opacity="0.07"/>
+    <rect x="54" y="178" width="312" height="128" rx="20" fill="url(#accent)" opacity="0.9"/>
+    <circle cx="330" cy="104" r="25" fill="#76f7b2" opacity="0.92"/>
+    <g fill="#ffffff">
+      <rect x="78" y="212" width="148" height="14" rx="7" opacity="0.9"/>
+      <rect x="78" y="244" width="92" height="10" rx="5" opacity="0.48"/>
+      <rect x="78" y="264" width="210" height="10" rx="5" opacity="0.38"/>
+    </g>
+    <g>
+      <rect x="54" y="338" width="142" height="112" rx="18" fill="#ffffff" opacity="0.06"/>
+      <rect x="224" y="338" width="142" height="112" rx="18" fill="#ffffff" opacity="0.06"/>
+      <rect x="54" y="478" width="312" height="64" rx="16" fill="#ffffff" opacity="0.055"/>
+      <rect x="54" y="562" width="312" height="64" rx="16" fill="#ffffff" opacity="0.055"/>
+      <rect x="78" y="374" width="70" height="12" rx="6" fill="#76f7b2"/>
+      <rect x="248" y="374" width="70" height="12" rx="6" fill="#e8c36d"/>
+      <rect x="82" y="501" width="190" height="10" rx="5" fill="#ffffff" opacity="0.35"/>
+      <rect x="82" y="585" width="226" height="10" rx="5" fill="#ffffff" opacity="0.35"/>
+    </g>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="130" y="278" width="300" height="172" rx="24" fill="#111820" stroke="#ffffff" stroke-opacity="0.14"/>
+    <rect x="168" y="320" width="130" height="14" rx="7" fill="#76f7b2"/>
+    <rect x="168" y="358" width="208" height="10" rx="5" fill="#ffffff" opacity="0.34"/>
+    <rect x="168" y="384" width="154" height="10" rx="5" fill="#ffffff" opacity="0.22"/>
+    <rect x="168" y="414" width="78" height="12" rx="6" fill="#e8c36d" opacity="0.84"/>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="842" y="502" width="308" height="174" rx="24" fill="#111820" stroke="#ffffff" stroke-opacity="0.14"/>
+    <circle cx="904" cy="572" r="34" fill="#76f7b2" opacity="0.9"/>
+    <rect x="958" y="542" width="128" height="14" rx="7" fill="#ffffff" opacity="0.42"/>
+    <rect x="958" y="576" width="152" height="10" rx="5" fill="#ffffff" opacity="0.24"/>
+    <rect x="958" y="604" width="90" height="10" rx="5" fill="#ffffff" opacity="0.18"/>
+  </g>
+</svg>
