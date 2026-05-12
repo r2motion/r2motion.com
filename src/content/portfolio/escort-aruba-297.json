@@ -15,10 +15,10 @@
   ],
   "liveUrl": "escortaruba297.com",
   "coverImage": "/uploads/portfolio/escortaruba297-screenshot.jpg",
-  "summary": "Develop & Local SEO",
+  "summary": "escortaruba297.com is a custom WordPress website built for a local escort service business in Aruba, designed with a professional layout, Local SEO, analytics, and reliable business hosting by (r2)motion. The platform focuses on privacy, usability, local visibility, and a clean online presentation for service-based inquiries.",
   "technologies": [
-    "React",
-    "Vite",
+    "WordPress",
+    "PHP",
     "CMS",
     "Analytics"
   ],
@@ -28,13 +28,12 @@
   "caseStudyUrl": "",
   "title": "Escort Aruba 297",
   "accentColor": "#e86dc1",
-  "description": "Develop & Local SEO",
+  "description": "escortaruba297.com is a custom-built WordPress website developed for a local escort service business in Aruba. The website uses a custom WordPress theme designed to present the business in a professional, discreet, and user-friendly way, with clear navigation, service information, and accessible contact options. Local SEO was implemented to improve visibility for relevant searches within Aruba, helping the business reach its target audience more effectively. Analytics integration provides insight into website traffic, visitor behavior, and overall digital performance. The platform is hosted on regular business hosting provided by (r2)motion, offering a reliable and practical hosting environment for daily website use. Together, these features create a clean, locally optimized, and easy-to-manage online presence focused on privacy, accessibility, and professional service presentation.",
   "year": "2026",
   "services": [
     "Hosting",
     "SEO",
-    "Security",
-    "Perfromance"
+    "WordPress Theme"
   ],
   "category": "Web Develop"
 }
