@@ -27,7 +27,7 @@
   "order": 2,
   "caseStudyUrl": "",
   "title": "Masnoticia.com",
-  "accentColor": "#ff9400",
+  "accentColor": "#008bff",
   "description": "masnoticia.com is a custom-built local news website designed for high traffic, fast content delivery, strong security, and reliable daily performance. The platform is hosted on an enterprise infrastructure using redundant Amazon EC2 instances and S3 buckets, providing scalability, stability, and dependable uptime for a demanding news environment. Security is implemented through Sucuri Enterprise and Cloudflare Enterprise, offering advanced firewall protection, traffic filtering, and protection against online threats. A custom theme was developed specifically for the needs of a local news platform, with a strong focus on speed, usability, SEO optimization, and efficient content presentation. To further improve performance, the website uses a custom cache stack that includes Varnish, Redis, Page Cache, Object Cache, and Memcached, all running behind Cloudflare Enterprise and Sucuri Enterprise firewall systems. The platform also includes a custom advertising management system provided by (r2)motion, using the (r2)motion Ad Pro plugin to manage and display ad placements across the website without relying on AdButler API integration. This creates a secure, scalable, and high-performance digital news platform with full control over content delivery, advertising, and user experience.",
   "year": "2026",
   "services": [
