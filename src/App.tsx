@@ -670,7 +670,11 @@ function Portfolio() {
                 onFocus={() => setActiveSlug(item.slug)}
               >
                 <span className="portfolio-rail-image">
-                  <img src={item.coverImage} alt={`${item.title} interface preview`} draggable="false" />
+                  <img
+                    src={getVersionedUploadUrl(item.coverImage)}
+                    alt={`${item.title} interface preview`}
+                    draggable="false"
+                  />
                 </span>
                 <span className="portfolio-rail-caption">
                   <span>{item.category}</span>
@@ -686,7 +690,7 @@ function Portfolio() {
                 aria-hidden="true"
               >
                 <span className="portfolio-rail-image">
-                  <img src={item.coverImage} alt="" draggable="false" />
+                  <img src={getVersionedUploadUrl(item.coverImage)} alt="" draggable="false" />
                 </span>
                 <span className="portfolio-rail-caption">
                   <span>{item.category}</span>
