@@ -15,7 +15,7 @@
   ],
   "liveUrl": "",
   "coverImage": "/uploads/portfolio/commerce-velocity-platform.svg",
-  "summary": "Hosting",
+  "summary": "Develop website for hostariavittorio.com",
   "technologies": [
     "React",
     "Vite",
@@ -28,7 +28,7 @@
   "caseStudyUrl": "",
   "title": "Hostaria Da Vittorio",
   "accentColor": "#e8c36d",
-  "description": "Hosting",
+  "description": "Develop website for hostariavittorio.com",
   "year": "2026",
   "services": [
     "Hosting",
@@ -36,5 +36,5 @@
     "Security",
     "Perfromance"
   ],
-  "category": "Hosting"
+  "category": "Web Develop"
 }
