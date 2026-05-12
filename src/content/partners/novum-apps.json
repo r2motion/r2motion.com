@@ -1,11 +1,11 @@
 {
-  "name": "Novum Apps",
-  "slug": "novum-apps",
-  "logoText": "Novum",
+  "name": "WordPress",
+  "slug": "wordpress",
+  "featured": false,
+  "order": 8,
   "logoImage": "",
-  "category": "Mobile app team",
   "relationshipType": "partner",
   "websiteUrl": "",
-  "featured": false,
-  "order": 8
+  "logoText": "WordPress",
+  "category": "Mobile app team"
 }
