@@ -1,7 +1,7 @@
 {
   "name": "Cloudways",
   "slug": "cloudways",
-  "featured": false,
+  "featured": true,
   "order": 7,
   "logoImage": "",
   "relationshipType": "partner",
