@@ -35,22 +35,14 @@ jobs:
 
       - name: Upload dist by SFTP
         if: env.HAS_SFTP == 'true'
-        uses: appleboy/scp-action@v1
         env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          SFTP_PRIVATE_KEY: ${{ secrets.SFTP_PRIVATE_KEY }}
           SFTP_PORT: ${{ secrets.SFTP_PORT || '22' }}
-        with:
-          host: ${{ secrets.SFTP_HOST }}
-          username: ${{ secrets.SFTP_USERNAME }}
-          password: ${{ secrets.SFTP_PASSWORD }}
-          key: ${{ secrets.SFTP_PRIVATE_KEY }}
-          port: ${{ env.SFTP_PORT }}
-          source: dist/*
-          target: ${{ secrets.SFTP_TARGET_PATH }}
-          strip_components: 1
-          rm: true
-          overwrite: true
-          timeout: 30s
-          command_timeout: 10m
+          SFTP_TARGET_PATH: ${{ secrets.SFTP_TARGET_PATH }}
+        run: node scripts/deploy-sftp.mjs
 
       - name: Skip upload notice
         if: env.HAS_SFTP != 'true'
