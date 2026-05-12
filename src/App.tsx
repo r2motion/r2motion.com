@@ -615,8 +615,8 @@ function Portfolio() {
   const suppressClickRef = useRef(false);
   const clickResetTimerRef = useRef<number | null>(null);
   const inertiaFrameRef = useRef<number | null>(null);
+  const lastInputWasKeyboardRef = useRef(false);
   const railFocusRef = useRef(false);
-  const railHoverRef = useRef(false);
   const [activeSlug, setActiveSlug] = useState(portfolioItems[0]?.slug ?? '');
   const [activeCategory, setActiveCategory] = useState('All');
   const [isRailPaused, setIsRailPaused] = useState(false);
@@ -685,14 +685,32 @@ function Portfolio() {
   }, [isRailDragging, isRailPaused, shouldAnimateRail]);
 
   useEffect(
-    () => () => {
-      if (clickResetTimerRef.current !== null) {
-        window.clearTimeout(clickResetTimerRef.current);
-      }
+    () => {
+      const onKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'Tab') {
+          lastInputWasKeyboardRef.current = true;
+        }
+      };
 
-      if (inertiaFrameRef.current !== null) {
-        window.cancelAnimationFrame(inertiaFrameRef.current);
-      }
+      const onPointerDown = () => {
+        lastInputWasKeyboardRef.current = false;
+      };
+
+      window.addEventListener('keydown', onKeyDown);
+      window.addEventListener('pointerdown', onPointerDown);
+
+      return () => {
+        window.removeEventListener('keydown', onKeyDown);
+        window.removeEventListener('pointerdown', onPointerDown);
+
+        if (clickResetTimerRef.current !== null) {
+          window.clearTimeout(clickResetTimerRef.current);
+        }
+
+        if (inertiaFrameRef.current !== null) {
+          window.cancelAnimationFrame(inertiaFrameRef.current);
+        }
+      };
     },
     [],
   );
@@ -774,6 +792,7 @@ function Portfolio() {
 
       if (Math.abs(velocity) < 0.02) {
         inertiaFrameRef.current = null;
+        resumeRailWhenIdle();
         return;
       }
 
@@ -782,10 +801,11 @@ function Portfolio() {
 
     stopRailInertia();
     inertiaFrameRef.current = window.requestAnimationFrame(glide);
+    return true;
   };
 
   const resumeRailWhenIdle = () => {
-    if (!dragRef.current.isDragging && !railHoverRef.current && !railFocusRef.current) {
+    if (!dragRef.current.isDragging && !railFocusRef.current) {
       setIsRailPaused(false);
     }
   };
@@ -811,7 +831,6 @@ function Portfolio() {
 
     stopRailInertia();
     setIsRailPaused(true);
-    setIsRailDragging(true);
     suppressClickRef.current = false;
     const now = window.performance.now();
     dragRef.current = {
@@ -824,7 +843,6 @@ function Portfolio() {
       startX: event.clientX,
       velocity: 0,
     };
-    rail.setPointerCapture(event.pointerId);
   };
 
   const onRailPointerMove = (event: PointerEvent<HTMLDivElement>) => {
@@ -839,9 +857,17 @@ function Portfolio() {
     const elapsed = Math.max(now - drag.lastTime, 16);
     const delta = event.clientX - drag.startX;
 
-    if (Math.abs(delta) > 4) {
+    if (Math.abs(delta) > 4 && !drag.didDrag) {
       drag.didDrag = true;
       suppressClickRef.current = true;
+      setIsRailDragging(true);
+
+      if (!rail.hasPointerCapture(event.pointerId)) {
+        rail.setPointerCapture(event.pointerId);
+      }
+    }
+
+    if (drag.didDrag) {
       event.preventDefault();
     }
 
@@ -863,15 +889,21 @@ function Portfolio() {
       rail.releasePointerCapture(event.pointerId);
     }
 
-    if (drag.didDrag) {
-      suppressClickRef.current = true;
-      clearClickSuppression();
-      startRailInertia(rail, drag.velocity);
-    }
+    const didDrag = drag.didDrag;
+    const velocity = drag.velocity;
 
     drag.isDragging = false;
     setIsRailDragging(false);
-    resumeRailWhenIdle();
+
+    if (didDrag) {
+      suppressClickRef.current = true;
+      clearClickSuppression();
+      if (!startRailInertia(rail, velocity)) {
+        resumeRailWhenIdle();
+      }
+    } else {
+      resumeRailWhenIdle();
+    }
   };
 
   return (
@@ -908,17 +940,17 @@ function Portfolio() {
           onPointerMove={onRailPointerMove}
           onPointerUp={finishRailDrag}
           onPointerCancel={finishRailDrag}
-          onPointerEnter={() => {
-            railHoverRef.current = true;
-            setIsRailPaused(true);
-          }}
           onPointerLeave={() => {
-            railHoverRef.current = false;
-            resumeRailWhenIdle();
+            if (dragRef.current.isDragging && !dragRef.current.didDrag) {
+              dragRef.current.isDragging = false;
+              resumeRailWhenIdle();
+            }
           }}
           onFocusCapture={() => {
-            railFocusRef.current = true;
-            setIsRailPaused(true);
+            if (lastInputWasKeyboardRef.current) {
+              railFocusRef.current = true;
+              setIsRailPaused(true);
+            }
           }}
           onBlurCapture={(event) => {
             const nextFocus = event.relatedTarget;
