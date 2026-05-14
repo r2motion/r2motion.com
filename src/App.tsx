@@ -8,6 +8,7 @@ import {
   Gauge,
   LockKeyhole,
   Mail,
+  Menu,
   MonitorSmartphone,
   Puzzle,
   SearchCheck,
@@ -454,21 +455,55 @@ function HeroScene() {
 }
 
 function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.classList.toggle('mobile-menu-open', isMenuOpen);
+
+    return () => {
+      document.body.classList.remove('mobile-menu-open');
+    };
+  }, [isMenuOpen]);
+
+  const closeMenu = () => setIsMenuOpen(false);
+
   return (
-    <header className="site-header">
-      <a href="#top" className="brand-mark" aria-label="(r2)motion home">
+    <header className={`site-header ${isMenuOpen ? 'is-menu-open' : ''}`}>
+      <a href="#top" className="brand-mark" aria-label="(r2)motion home" onClick={closeMenu}>
         <span>(r2)</span>motion
       </a>
       <nav className="nav-links" aria-label="Primary navigation">
-        <a href="#services">Services</a>
-        <a href="#portfolio">Portfolio</a>
-        <a href="#partners">Partners</a>
-        <a href="#process">Process</a>
-        <a href="#contact">Contact</a>
+        <a href="#services" onClick={closeMenu}>Services</a>
+        <a href="#portfolio" onClick={closeMenu}>Portfolio</a>
+        <a href="#partners" onClick={closeMenu}>Partners</a>
+        <a href="#process" onClick={closeMenu}>Process</a>
+        <a href="#contact" onClick={closeMenu}>Contact</a>
       </nav>
-      <a href="#contact" className="header-action">
+      <button
+        type="button"
+        className="menu-toggle"
+        aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+        aria-expanded={isMenuOpen}
+        aria-controls="mobile-navigation"
+        onClick={() => setIsMenuOpen((open) => !open)}
+      >
+        {isMenuOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
+      </button>
+      <a href="#contact" className="header-action" onClick={closeMenu}>
         Start a project
       </a>
+      <nav
+        className="mobile-nav-panel"
+        id="mobile-navigation"
+        aria-label="Mobile navigation"
+        aria-hidden={!isMenuOpen}
+      >
+        <a href="#services" onClick={closeMenu}>Services</a>
+        <a href="#portfolio" onClick={closeMenu}>Portfolio</a>
+        <a href="#partners" onClick={closeMenu}>Partners</a>
+        <a href="#process" onClick={closeMenu}>Process</a>
+        <a href="#contact" onClick={closeMenu}>Contact</a>
+      </nav>
     </header>
   );
 }
@@ -617,10 +652,12 @@ function Portfolio() {
   const inertiaFrameRef = useRef<number | null>(null);
   const lastInputWasKeyboardRef = useRef(false);
   const railFocusRef = useRef(false);
+  const touchPauseTimerRef = useRef<number | null>(null);
   const [activeSlug, setActiveSlug] = useState(portfolioItems[0]?.slug ?? '');
   const [activeCategory, setActiveCategory] = useState('All');
   const [isRailPaused, setIsRailPaused] = useState(false);
   const [isRailDragging, setIsRailDragging] = useState(false);
+  const [usesNativeTouchScroll, setUsesNativeTouchScroll] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const filteredPortfolioItems = useMemo(
     () =>
@@ -633,7 +670,7 @@ function Portfolio() {
     filteredPortfolioItems.find((item) => item.slug === activeSlug) ??
     filteredPortfolioItems[0] ??
     portfolioItems[0];
-  const shouldAnimateRail = !reduceMotion && filteredPortfolioItems.length > 1;
+  const shouldAnimateRail = !reduceMotion && !usesNativeTouchScroll && filteredPortfolioItems.length > 1;
   const galleryImages = activeProject ? getPortfolioGallery(activeProject) : [];
   const activeGalleryImage = lightboxIndex === null ? null : galleryImages[lightboxIndex];
 
@@ -710,10 +747,29 @@ function Portfolio() {
         if (inertiaFrameRef.current !== null) {
           window.cancelAnimationFrame(inertiaFrameRef.current);
         }
+
+        if (touchPauseTimerRef.current !== null) {
+          window.clearTimeout(touchPauseTimerRef.current);
+        }
       };
     },
     [],
   );
+
+  useEffect(() => {
+    const media = window.matchMedia('(pointer: coarse), (max-width: 780px)');
+
+    const syncTouchScrollMode = () => {
+      setUsesNativeTouchScroll(media.matches);
+    };
+
+    syncTouchScrollMode();
+    media.addEventListener('change', syncTouchScrollMode);
+
+    return () => {
+      media.removeEventListener('change', syncTouchScrollMode);
+    };
+  }, []);
 
   useEffect(() => {
     if (lightboxIndex === null) {
@@ -819,6 +875,10 @@ function Portfolio() {
   };
 
   const onRailPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType !== 'mouse') {
+      return;
+    }
+
     if (event.pointerType === 'mouse' && event.button !== 0) {
       return;
     }
@@ -843,6 +903,26 @@ function Portfolio() {
       startX: event.clientX,
       velocity: 0,
     };
+  };
+
+  const pauseRailForTouchScroll = () => {
+    if (touchPauseTimerRef.current !== null) {
+      window.clearTimeout(touchPauseTimerRef.current);
+      touchPauseTimerRef.current = null;
+    }
+
+    setIsRailPaused(true);
+  };
+
+  const resumeRailAfterTouchScroll = () => {
+    if (touchPauseTimerRef.current !== null) {
+      window.clearTimeout(touchPauseTimerRef.current);
+    }
+
+    touchPauseTimerRef.current = window.setTimeout(() => {
+      touchPauseTimerRef.current = null;
+      resumeRailWhenIdle();
+    }, 450);
   };
 
   const onRailPointerMove = (event: PointerEvent<HTMLDivElement>) => {
@@ -940,6 +1020,9 @@ function Portfolio() {
           onPointerMove={onRailPointerMove}
           onPointerUp={finishRailDrag}
           onPointerCancel={finishRailDrag}
+          onTouchStart={pauseRailForTouchScroll}
+          onTouchEnd={resumeRailAfterTouchScroll}
+          onTouchCancel={resumeRailAfterTouchScroll}
           onPointerLeave={() => {
             if (dragRef.current.isDragging && !dragRef.current.didDrag) {
               dragRef.current.isDragging = false;
